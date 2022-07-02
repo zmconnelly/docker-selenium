@@ -55,6 +55,10 @@ spec:
     {{- with .Values.components.distributor.nodeSelector }}
       nodeSelector: {{- toYaml . | nindent 8 }}
     {{- end }}
+    {{- if or .Values.global.seleniumGrid.imagePullSecret .Values.components.distributor.imagePullSecret }}
+      imagePullSecrets:
+        - name: {{ default .Values.global.seleniumGrid.imagePullSecret .Values.components.distributor.imagePullSecret }}
+    {{- end }}
     {{- with .Values.components.distributor.tolerations }}
       tolerations:
         {{ toYaml . | nindent 6 }}
